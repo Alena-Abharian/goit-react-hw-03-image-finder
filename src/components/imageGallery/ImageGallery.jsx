@@ -19,7 +19,7 @@ class ImageGallery extends Component {
     const BASE_URL = 'https://pixabay.com/api/';
     const KEY = '17103623-ab930b7d528134dd68b9da242';
     this.setState({ loading: true });
-    return fetch(`${BASE_URL}?q=${this.props.query}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`)
+    return fetch(`${BASE_URL}?q=${this.props.query}&page=${page || 1}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`)
       .then(res => {
         if (!res.ok) {
           throw new Error(res.status);
@@ -34,7 +34,7 @@ class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.query !== this.props.query) {
-      this.getImages(this.state.page)
+      this.getImages()
         .then(imgQuery => {
           this.setState({ imgQuery, showModal: false, page: 1, loading: false });
         });
